@@ -12,18 +12,20 @@ public class KeyTest {
 	
 	@Test
 	public void testKeyHasOne() {
+		int[] A = {3}; // test case
 		int[] ev = {4}; // expected value
 		Key key = new Key(1);
-		key.set(0, 3);
+		key.set(A);
 		key.inc();
 		assertEquals(Arrays.toString(ev),Arrays.toString(key.get()));
 	}
 	
 	@Test
 	public void testKeyHasMany() {
+		int[] A = {256,256,4}; // test case
 		int[] ev = {0,0,5}; // expected value
 		Key key = new Key(3);
-		key.set(0, 256);key.set(1, 256);key.set(2, 4);
+		key.set(A);
 		key.inc();
 		assertEquals(Arrays.toString(ev),Arrays.toString(key.get()));
 	}

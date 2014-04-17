@@ -97,38 +97,38 @@ public class CeasarCracker {
 	}
 
 	/**
-	 * @param 
-	 * @param 
+	 * @param
+	 * @param
 	 * 
 	 * @return arreOrigin + arreAscii
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public int [] sum_of_arrangements(int [] key,int [] arreAscii) {
-		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
-		for(int i=0; i<key.length;i++)
-			 q.enqueue(key[i]);
+	@SuppressWarnings({ "rawtypes" })
+	public int[] sumOfArrangements(int[] key, int[] arreAscii) {
+		IterableCircularQueue<Integer> q = new IterableCircularQueue<Integer>(
+				key.length);
+		for (int i = 0; i < key.length; i++)
+			q.enqueue(key[i]);
 		Iterator it = q.iterator();
-		for (int i = 0; i < arreAscii.length; i++) {
+		for (int i = 0; i < arreAscii.length; i++) 
 			arreAscii[i] += (Integer) it.next();
-		}
 		return arreAscii;
 	}
 
 	/**
 	 * Converts word to an array of ASCII numbers
 	 * 
-	 * @param String word
-	 * 
+	 * @param String word 
+	 * 					is the known word from the unencrypted message.
 	 * @return int[]
 	 * @throws UnsupportedEncodingException
 	 */
 	public int[] convert(String word) throws UnsupportedEncodingException {
 		String s = word;
 		byte[] b = s.getBytes("ASCII");
-		int [] arre = new int[b.length];
-	    for (int i = 0; i < b.length; i++) {
-	    	arre[i] = b[i];
-	    }
+		int[] arre = new int[b.length];
+		for (int i = 0; i < b.length; i++) {
+			arre[i] = b[i];
+		}
 		return arre;
 	}
 
@@ -182,19 +182,26 @@ public class CeasarCracker {
 	 * 
 	 * @return key found by brute force decryption (null if not found /
 	 *         decryption not executed)
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public int[] foundKey() throws UnsupportedEncodingException {
+		Key key = new Key();
+		String matcher;
 		boolean foundKey = false;
 		int[] wordBytes = this.convert(w);
 		for (int i = 1; i <=k; i++) {
-			Key key = new Key(i);
+			key = new Key(i);
+			int[] sum = new int[w.length()];
 			while(!key.isComplete() && !foundKey){
-			
-			
+				sum = this.sumOfArrangements(key.get(), wordBytes);
+				matcher ="d"; // pasarle sum.toString()
+				if(m.contains(matcher)){
+					foundKey = true;
+					break;
+				}
 				key.inc();
 			}
 		}
-			return null;
+			return key.get();
 	}
 }

@@ -19,9 +19,9 @@ public class Key {
 		return key;
 	}
 	
-	public void set(int index, int value){
-		key[index] = value;
-		//TODO : pasar arreglo por parametro
+	public void set(int[] a){
+		for (int i = 0; i < a.length; i++) 
+			key[i] = a[i];
 	}
 	
 	public boolean isComplete() {
