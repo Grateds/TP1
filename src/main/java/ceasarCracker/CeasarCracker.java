@@ -1,8 +1,8 @@
 package main.java.ceasarCracker;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Iterator;
+
 
 /**
  * This class is a brute force cracker for keyed Ceasar encoding.
@@ -105,16 +105,17 @@ public class CeasarCracker {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int[] sumOfArrangements(int[] key, int[] arreAscii) {
+		int[] res = new int[arreAscii.length];
 		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
 			q.enqueue(key[i]);
 		Iterator it = q.iterator();
 		for (int i = 0; i < arreAscii.length; i++) {
-			arreAscii[i] += (Integer) it.next();
-			if (arreAscii[i] > 256)
-				arreAscii[i] = arreAscii[i] - 255;
+			res[i] += arreAscii[i] + (Integer) it.next();
+			if (res[i] > 256)
+				res[i] = res[i] - 255;
 		}
-		return arreAscii;
+		return res;
 	}
 
 	/**
@@ -200,6 +201,7 @@ public class CeasarCracker {
 	 * @return key found by brute force decryption (null if not found /
 	 *         decryption not executed)
 	 * @throws UnsupportedEncodingException
+	 * @throws InterruptedException 
 	 */
 	public int[] foundKey() throws UnsupportedEncodingException {
 		Key key = new Key();
@@ -211,9 +213,9 @@ public class CeasarCracker {
 			key = new Key(i);
 			while(!key.isComplete() && !foundKey){
 				sum = this.sumOfArrangements(key.get(), wordBytes);
-				matcher = this.arrayToString(sum); 
+				matcher = this.arrayToString(sum);
 				if(m.contains(matcher))
-					{foundKey = true; System.out.println(Arrays.toString(key.get()));	}		
+					foundKey = true;	
 				else key.inc();
 			}
 			if(foundKey) break;
