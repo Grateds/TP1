@@ -57,7 +57,7 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
-	public void testSimpleKey() {
+	public void testSimpleKey() throws UnsupportedEncodingException {
 		int[] key = { 1 };
 		String output = CeasarCracker.encode("hola", key);
 		assertEquals("ipmb", output);
@@ -66,21 +66,21 @@ public class CeasarCrackerTests {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidMessageEncode() {
+	public void testInvalidMessageEncode() throws UnsupportedEncodingException {
 		int[] key = { 1 };
 		CeasarCracker.encode(null, key);
 		// must break!
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidKeyEncode() {
+	public void testInvalidKeyEncode() throws UnsupportedEncodingException {
 		int[] key = null;
 		CeasarCracker.encode("hola", key);
 		// must break!
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidEmptyKeyEncode() {
+	public void testInvalidEmptyKeyEncode() throws UnsupportedEncodingException {
 		int[] key = {};
 		CeasarCracker.encode("hola", key);
 		// must break!
@@ -108,7 +108,7 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
-	public void testComplexKey() {
+	public void testComplexKey() throws UnsupportedEncodingException {
 		int[] key = { 1, 0 };
 		String output = CeasarCracker.encode("hola", key);
 		assertEquals("ioma", output);
@@ -117,7 +117,7 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
-	public void testMoreComplexKey() {
+	public void testMoreComplexKey() throws UnsupportedEncodingException {
 		int[] key = { 20, 150, 101 };
 		String output = CeasarCracker.encode("hola que tal como andas", key);
 		String output2 = CeasarCracker.decode(output, key);
@@ -182,8 +182,7 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
-	public void testFailedComplexBruteForce()
-			throws UnsupportedEncodingException {
+	public void testFailedComplexBruteForce()	throws UnsupportedEncodingException {
 		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 1, 100, 101 };
 		cracker.setEncryptedMessage(CeasarCracker.encode("hola que tal", key));
@@ -202,9 +201,9 @@ public class CeasarCrackerTests {
 		cracker.setMessageWord("hola");
 		cracker.setPasswordLength(3);
 		boolean isDecrypted = cracker.bruteForceDecrypt();
+		int[] result = cracker.foundKey();
 		assertTrue("message decrypted", isDecrypted);
-		assertEquals("key found", Arrays.toString(cracker.foundKey()),
-				Arrays.toString(key));
+		assertTrue("encoding key is correct", Arrays.equals(key, result));
 	}
 
 	@Test
@@ -215,9 +214,9 @@ public class CeasarCrackerTests {
 		cracker.setMessageWord("hola");
 		cracker.setPasswordLength(3);
 		boolean isDecrypted = cracker.bruteForceDecrypt();
+		int[] result = cracker.foundKey();
 		assertTrue("message decrypted", isDecrypted);
-		assertEquals("encoding key is correct", Arrays.toString(key),
-				Arrays.toString(cracker.foundKey()));
+		assertTrue("encoding key is correct", Arrays.equals(key, result));
 	}
 
 	@Test
@@ -239,11 +238,10 @@ public class CeasarCrackerTests {
 	@Test
 	public void testOneSumOfArrangements() {
 		// check if the sum of two arrays is correct
-		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 1, 2, 0 };
 		int[] arreAscii = { 10, 15, 256 };
 		int[] ev = { 11, 17, 256 }; // expected value
-		int[] result = cracker.sumOfArrangements(key, arreAscii);
+		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
 
 		assertTrue(Arrays.equals(ev, result));
 	}
@@ -251,11 +249,10 @@ public class CeasarCrackerTests {
 	@Test
 	public void testTwoSumOfArrangements() {
 		// check if the sum of two arrays is correct
-		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 1, 0 };
 		int[] arreAscii = { 35, 23, 256, 1 };
 		int[] ev = { 36, 23, 2, 1 }; // expected value
-		int[] result = cracker.sumOfArrangements(key, arreAscii);
+		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
 
 		assertTrue(Arrays.equals(ev, result));
 	}
@@ -263,11 +260,10 @@ public class CeasarCrackerTests {
 	@Test
 	public void testFourSumOfArrangements() {
 		// check if the sum of two arrays is correct
-		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 1, 256 };
 		int[] arreAscii = { 35, 256 };
 		int[] ev = { 36, 257 }; // expected value
-		int[] result = cracker.sumOfArrangements(key, arreAscii);
+		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
 
 		assertTrue(Arrays.equals(ev, result));
 	}
@@ -275,30 +271,27 @@ public class CeasarCrackerTests {
 	@Test
 	public void testMoreCoplexSumOfArrangements() {
 		// check if the sum of two arrays is correct
-		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 1, 2, 1 };
 		int[] arreAscii = { 35, 256, 6, 2, 9 };
 		int[] ev = { 36, 3, 7, 3, 11 }; // expected value
-		int[] result = cracker.sumOfArrangements(key, arreAscii);
+		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
 
 		assertTrue(Arrays.equals(ev, result));
 	}
 
 	@Test
 	public void testStringToArray() throws UnsupportedEncodingException {
-		CeasarCracker cracker = new CeasarCracker();
 		String string = "hola";
 		int[] ev = { 104, 111, 108, 97 }; // expected value
-		int[] result = cracker.stringToArray(string);
+		int[] result = CeasarCracker.stringToArray(string);
 		assertTrue(Arrays.equals(ev, result));
 	}
 
 	@Test
 	public void testArrayToString() throws UnsupportedEncodingException {
-		CeasarCracker cracker = new CeasarCracker();
 		int[] s = { 104, 111, 108, 97 };
 		String string = "hola"; // expected value
-		assertEquals(string, cracker.arrayToString(s));
+		assertEquals(string, CeasarCracker.arrayToString(s));
 	}
 
 	@Test

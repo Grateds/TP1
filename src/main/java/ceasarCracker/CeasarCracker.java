@@ -103,7 +103,7 @@ public class CeasarCracker {
 	 * @return key + wordToAscii
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public int[] sumOfArrangements(int[] key, int[] wordToAscii) {
+	public static int[] sumOfArrangements(int[] key, int[] wordToAscii) {
 		int[] res = new int[wordToAscii.length];
 		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
@@ -125,7 +125,7 @@ public class CeasarCracker {
 	 * @return int[]
 	 * @throws UnsupportedEncodingException
 	 */
-	public int[] stringToArray(String word) throws UnsupportedEncodingException {
+	public static int[] stringToArray(String word) throws UnsupportedEncodingException {
 		String s = word;
 		byte[] b = s.getBytes("ASCII");
 		int[] arre = new int[b.length];
@@ -141,7 +141,7 @@ public class CeasarCracker {
 	 * @return String
 	 * @throws UnsupportedEncodingException
 	 */
-	public String arrayToString(int[] word) throws UnsupportedEncodingException {
+	public static String arrayToString(int[] word) throws UnsupportedEncodingException {
 		String s = "";
 		for (int i = 0; i < word.length; i++) {
 			s = s + Character.toString ((char) word[i]);
@@ -158,10 +158,13 @@ public class CeasarCracker {
 	 *            is the key used for encoding, given as an array of integer
 	 *            values (from 0 to 255).
 	 * @return the message encoded with the provided key.
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static String encode(String message, int[] key) {
-		// TODO: Implement this method.
-		return null;
+	public static String encode(String message, int[] key) throws UnsupportedEncodingException {
+		int[] res = new int[message.length()];
+		int[] messageBytes = stringToArray(message);
+		res = sumOfArrangements(key, messageBytes);
+		return arrayToString(res);
 	}
 
 	/**
@@ -210,12 +213,12 @@ public class CeasarCracker {
 		int[] sum = new int[w.length()];
 		String matcher;
 		boolean foundKey = false;
-		int[] wordBytes = this.stringToArray(w);
+		int[] wordBytes = stringToArray(w);
 		for (int i = 1; i <=k; i++) {
 			key = new Key(i);
 			while(!key.isComplete() && !foundKey){
-				sum = this.sumOfArrangements(key.get(), wordBytes);
-				matcher = this.arrayToString(sum);
+				sum = sumOfArrangements(key.get(), wordBytes);
+				matcher = arrayToString(sum);
 				if(m.contains(matcher))
 					foundKey = true;	
 				else key.inc();
