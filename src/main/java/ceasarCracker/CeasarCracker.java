@@ -1,6 +1,7 @@
 package main.java.ceasarCracker;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -100,17 +101,19 @@ public class CeasarCracker {
 	 * @param
 	 * @param
 	 * 
-	 * @return arreOrigin + arreAscii
+	 * @return key + arreAscii
 	 */
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int[] sumOfArrangements(int[] key, int[] arreAscii) {
-		IterableCircularQueue<Integer> q = new IterableCircularQueue<Integer>(
-				key.length);
+		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
 			q.enqueue(key[i]);
 		Iterator it = q.iterator();
-		for (int i = 0; i < arreAscii.length; i++) 
+		for (int i = 0; i < arreAscii.length; i++) {
 			arreAscii[i] += (Integer) it.next();
+			if (arreAscii[i] > 256)
+				arreAscii[i] = arreAscii[i] - 255;
+		}
 		return arreAscii;
 	}
 
@@ -122,7 +125,7 @@ public class CeasarCracker {
 	 * @return int[]
 	 * @throws UnsupportedEncodingException
 	 */
-	public int[] convert(String word) throws UnsupportedEncodingException {
+	public int[] stringToArray(String word) throws UnsupportedEncodingException {
 		String s = word;
 		byte[] b = s.getBytes("ASCII");
 		int[] arre = new int[b.length];
@@ -131,7 +134,21 @@ public class CeasarCracker {
 		}
 		return arre;
 	}
-
+	
+	/**
+	 * 
+	 * @param word
+	 * @return String
+	 * @throws UnsupportedEncodingException
+	 */
+	public String arrayToString(int[] word) throws UnsupportedEncodingException {
+		String s = "";
+		for (int i = 0; i < word.length; i++) {
+			s = s + Character.toString ((char) word[i]);
+		}	
+		return s;
+	}
+	
 	/**
 	 * Encodes message with a given key.
 	 * 
@@ -166,7 +183,7 @@ public class CeasarCracker {
 	 * Attempts to decode encrypted message with the given key. Brute force
 	 * decryption tries to find a key of at most this.passwordLength values
 	 * (each from 0 to 255) such that the decryption of the encrypted message
-	 * leads to a decrypted text that contains this.messageWord.
+	 * leads to a decrypted text that contaitestMoreComplexFoundKeyns this.messageWord.
 	 * 
 	 * @return true iff brute force decryption succeeded.
 	 */
@@ -186,22 +203,21 @@ public class CeasarCracker {
 	 */
 	public int[] foundKey() throws UnsupportedEncodingException {
 		Key key = new Key();
+		int[] sum = new int[w.length()];
 		String matcher;
 		boolean foundKey = false;
-		int[] wordBytes = this.convert(w);
+		int[] wordBytes = this.stringToArray(w);
 		for (int i = 1; i <=k; i++) {
 			key = new Key(i);
-			int[] sum = new int[w.length()];
 			while(!key.isComplete() && !foundKey){
 				sum = this.sumOfArrangements(key.get(), wordBytes);
-				matcher ="d"; // pasarle sum.toString()
-				if(m.contains(matcher)){
-					foundKey = true;
-					break;
-				}
-				key.inc();
+				matcher = this.arrayToString(sum); 
+				if(m.contains(matcher))
+					{foundKey = true; System.out.println(Arrays.toString(key.get()));	}		
+				else key.inc();
 			}
+			if(foundKey) break;
 		}
-			return key.get();
+		return key.get();
 	}
 }
