@@ -47,9 +47,8 @@ public class CeasarCracker {
 	 * Sets the maximum length of the password to be tried for deciphering the
 	 * encrypted message.
 	 * 
-	 * @param length
-	 *            is the new maximum length for the passwords to try for
-	 *            cracking.
+	 * @param length 
+	 * 			is the new maximum length for the passwords to try for cracking.
 	 */
 	public void setPasswordLength(int length) {
 		k = length;
@@ -71,8 +70,8 @@ public class CeasarCracker {
 	 * be one that, applied to the encrypted message leads to an unencrypted
 	 * message containing the known word.
 	 * 
-	 * @param word
-	 *            is the known word from the unencrypted message.
+	 * @param word 
+	 * 			is the known word from the unencrypted message.
 	 */
 	public void setMessageWord(String word) {
 		w = word;
@@ -90,8 +89,8 @@ public class CeasarCracker {
 	/**
 	 * Sets the encrypted message, to be "decrypted" by brute force.
 	 * 
-	 * @param message
-	 *            is the encrypted message to set for the cracker.
+	 * @param message 
+	 * 				is the encrypted message to set for the cracker.
 	 */
 	public void setEncryptedMessage(String message) {
 		m = message;
@@ -101,17 +100,17 @@ public class CeasarCracker {
 	 * @param
 	 * @param
 	 * 
-	 * @return key + arreAscii
+	 * @return key + wordToAscii
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public int[] sumOfArrangements(int[] key, int[] arreAscii) {
-		int[] res = new int[arreAscii.length];
+	public int[] sumOfArrangements(int[] key, int[] wordToAscii) {
+		int[] res = new int[wordToAscii.length];
 		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
 			q.enqueue(key[i]);
 		Iterator it = q.iterator();
-		for (int i = 0; i < arreAscii.length; i++) {
-			res[i] += arreAscii[i] + (Integer) it.next();
+		for (int i = 0; i < wordToAscii.length; i++) {
+			res[i] += wordToAscii[i] + (Integer) it.next();
 			if (res[i] > 256)
 				res[i] = res[i] - 255;
 		}
@@ -187,10 +186,14 @@ public class CeasarCracker {
 	 * leads to a decrypted text that contaitestMoreComplexFoundKeyns this.messageWord.
 	 * 
 	 * @return true iff brute force decryption succeeded.
+	 * @throws UnsupportedEncodingException 
 	 */
-	public boolean bruteForceDecrypt() {
-		// TODO: Implement this method.
-		return false;
+	public boolean bruteForceDecrypt() throws UnsupportedEncodingException {
+		if(m == null) throw new IllegalArgumentException("The encrypted message must not be null!");
+		if(w == null) throw new IllegalArgumentException("The message word must not be null!");
+		if(w.length()>m.length()) throw new IllegalStateException("The message's length must be greater-equal than word's length");
+		if(k < 1) throw new IllegalStateException("The password's length must be greater than cero");
+		return this.foundKey() != null;
 	}
 
 	/**
@@ -199,9 +202,8 @@ public class CeasarCracker {
 	 * found.
 	 * 
 	 * @return key found by brute force decryption (null if not found /
-	 *         decryption not executed)
+	 * decryption not executed)
 	 * @throws UnsupportedEncodingException
-	 * @throws InterruptedException 
 	 */
 	public int[] foundKey() throws UnsupportedEncodingException {
 		Key key = new Key();
@@ -220,6 +222,7 @@ public class CeasarCracker {
 			}
 			if(foundKey) break;
 		}
-		return key.get();
+		if(foundKey)return key.get();
+		else return null;
 	}
 }
