@@ -222,8 +222,7 @@ public class CeasarCrackerTests {
 		cracker.setMessageWord("hola");		
 		cracker.setPasswordLength(4);
 		boolean isDecrypted = cracker.bruteForceDecrypt();
-		int[] result = cracker.foundKey();
-	
+		int[] result = cracker.foundKey(); // result = {206, 137, 105, 6}
 		assertTrue("message decrypted", isDecrypted);
 		assertTrue("encoding key is correct", Arrays.equals(key, result));
 	}
