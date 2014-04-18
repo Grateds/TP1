@@ -22,38 +22,31 @@ public class CeasarCrackerTests {
 	@Test
 	public void testDefaultConstructor() {
 		CeasarCracker cracker = new CeasarCracker();
-		assertEquals("default pass length is one", 1,
-				cracker.getPasswordLength());
+		assertEquals("default pass length is one", 1, cracker.getPasswordLength());
 		assertEquals("message word is empty", "", cracker.getMessageWord());
-		assertEquals("encrypted message is empty", "",
-				cracker.getEncryptedMessage());
+		assertEquals("encrypted message is empty", "", cracker.getEncryptedMessage());
 	}
 
 	@Test
 	public void testConstructorWithWordAndMessage() {
 		CeasarCracker cracker = new CeasarCracker("encrypted", "word");
-		assertEquals("default pass length is one", 1,
-				cracker.getPasswordLength());
-		assertEquals("message word is correct", "word",
-				cracker.getMessageWord());
-		assertEquals("encrypted message is correct", "encrypted",
-				cracker.getEncryptedMessage());
+		assertEquals("default pass length is one", 1, cracker.getPasswordLength());
+		assertEquals("message word is correct", "word",	cracker.getMessageWord());
+		assertEquals("encrypted message is correct", "encrypted", cracker.getEncryptedMessage());
 	}
 
 	@Test
 	public void testSettingEncryptedMessage() {
 		CeasarCracker cracker = new CeasarCracker();
 		cracker.setEncryptedMessage("abcd");
-		assertEquals("encrypted message is correctly set", "abcd",
-				cracker.getEncryptedMessage());
+		assertEquals("encrypted message is correctly set", "abcd",	cracker.getEncryptedMessage());
 	}
 
 	@Test
 	public void testSettingKnownWord() {
 		CeasarCracker cracker = new CeasarCracker();
 		cracker.setMessageWord("abcd");
-		assertEquals("known word is correctly set", "abcd",
-				cracker.getMessageWord());
+		assertEquals("known word is correctly set", "abcd",	cracker.getMessageWord());
 	}
 
 	@Test
@@ -220,17 +213,17 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
-	public void testEvenMoreComplexBruteForce()
-			throws UnsupportedEncodingException {
+	public void testEvenMoreComplexBruteForce() throws UnsupportedEncodingException {
 		// may be slow (more than 3 minutes on a modern PC)
 		// comment the @Test above for just running the other "quicker" tests.
 		CeasarCracker cracker = new CeasarCracker();
 		int[] key = { 3, 23, 151, 103 };
 		cracker.setEncryptedMessage(CeasarCracker.encode("hola que tal como andas", key));
-		cracker.setMessageWord("hola");
+		cracker.setMessageWord("hola");		
 		cracker.setPasswordLength(4);
 		boolean isDecrypted = cracker.bruteForceDecrypt();
 		int[] result = cracker.foundKey();
+	
 		assertTrue("message decrypted", isDecrypted);
 		assertTrue("encoding key is correct", Arrays.equals(key, result));
 	}
@@ -311,7 +304,7 @@ public class CeasarCrackerTests {
 		cracker.setEncryptedMessage("iombasdf");
 		cracker.setMessageWord("hola");
 		cracker.setPasswordLength(5);
-		int[] key = { 1, 0, 1 };
+		int[] key = { 1, 0, 1 }; // expected value
 		int[] result = cracker.foundKey();
 		assertTrue(Arrays.equals(key, result));
 	}

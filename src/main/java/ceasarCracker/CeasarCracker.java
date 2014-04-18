@@ -21,6 +21,9 @@ public class CeasarCracker {
 	 * to "". Maximum password length to be tried is set to 1.
 	 */
 	public CeasarCracker() {
+		m = "";
+		w = "";
+		k = 1;
 	}
 
 	/**
@@ -28,6 +31,7 @@ public class CeasarCracker {
 	 * Maximum password length to be tried is set to 1.
 	 */
 	public CeasarCracker(String encryptedMessage, String word) {
+		k = 1; // default pass length
 		m = encryptedMessage;
 		w = word;
 	}
@@ -161,6 +165,9 @@ public class CeasarCracker {
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static String encode(String message, int[] key) throws UnsupportedEncodingException {
+		if(message == null) throw new IllegalArgumentException("The message must not be null!");
+		if(key == null) throw new IllegalArgumentException("The key must not be null!");
+		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
 		int[] res = new int[message.length()];
 		int[] messageBytes = stringToArray(message);
 		res = sumOfArrangements(key, messageBytes);
