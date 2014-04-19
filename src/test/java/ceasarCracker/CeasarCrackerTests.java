@@ -80,21 +80,21 @@ public class CeasarCrackerTests {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidMessageDecode() {
+	public void testInvalidMessageDecode() throws UnsupportedEncodingException {
 		int[] key = { 1 };
 		CeasarCracker.decode(null, key);
 		// must break!
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidKeyDecode() {
+	public void testInvalidKeyDecode() throws UnsupportedEncodingException {
 		int[] key = null;
 		CeasarCracker.decode("hola", key);
 		// must break!
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidEmptyKeyDecode() {
+	public void testInvalidEmptyKeyDecode() throws UnsupportedEncodingException {
 		int[] key = {};
 		CeasarCracker.decode("hola", key);
 		// must break!
@@ -261,6 +261,26 @@ public class CeasarCrackerTests {
 	}
 
 	@Test
+	public void testOneSubtractionOfArrangements(){  
+		int[] key = {1,0};
+		int[] arreAscii = {105, 111, 109, 97};
+		int[] ev = {104, 111, 108, 97}; // expected value
+		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
+		
+		assertTrue(Arrays.equals(ev, result));
+	}
+	
+	@Test
+	public void testTwoSubtractionOfArrangements(){  
+		int[] key = {1,0};
+		int[] arreAscii = {0,2};
+		int[] ev = {256,2}; // expected value
+		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
+		
+		assertTrue(Arrays.equals(ev, result));
+	}
+	
+	@Test
 	public void testMoreCoplexSumOfArrangements() {
 		// check if the sum of two arrays is correct
 		int[] key = { 1, 2, 1 };
@@ -307,4 +327,5 @@ public class CeasarCrackerTests {
 		int[] result = cracker.foundKey();
 		assertTrue(Arrays.equals(key, result));
 	}
+	
 }
