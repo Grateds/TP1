@@ -101,10 +101,10 @@ public class CeasarCracker {
 	}
 
 	/**
-	 * @param
-	 * @param
+	 * @param key
+	 * @param wordToAscii
 	 * 
-	 * @return key + wordToAscii
+	 * @return res
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static int[] sumOfArrangements(int[] key, int[] wordToAscii) {
@@ -117,6 +117,27 @@ public class CeasarCracker {
 			res[i] += wordToAscii[i] + (Integer) it.next();
 			if (res[i] > 256)
 				res[i] = res[i] - 255;
+		}
+		return res;
+	}
+
+	/**
+	 * 
+	 * @param key
+	 * @param wordToAscii
+	 * @return res
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static int[] subtractionOfArrangements(int[] key, int[] wordToAscii) {
+		int[] res = new int[wordToAscii.length];
+		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
+		for (int i = 0; i < key.length; i++)
+			q.enqueue(key[i]);
+		Iterator it = q.iterator();
+		for (int i = 0; i < wordToAscii.length; i++) {
+			res[i] += wordToAscii[i] - (Integer) it.next();
+			if (res[i] < 0)
+				res[i] = res[i] + 257;
 		}
 		return res;
 	}
@@ -183,12 +204,18 @@ public class CeasarCracker {
 	 *            is the key used for decoding, given as an array of integer
 	 *            values (from 0 to 255).
 	 * @return the message decoded with the provided key.
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static String decode(String message, int[] key) {
-		// TODO: Implement this method.
-		return null;
+	public static String decode(String message, int[] key) throws UnsupportedEncodingException{
+		if(message == null) throw new IllegalArgumentException("The message must not be null!");
+		if(key == null) throw new IllegalArgumentException("The key must not be null!");
+		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
+		int[] res = new int[message.length()];
+		int[] messageBytes = stringToArray(message);
+		res = subtractionOfArrangements(key, messageBytes);
+		return arrayToString(res);
 	}
-
+	
 	/**
 	 * Attempts to decode encrypted message with the given key. Brute force
 	 * decryption tries to find a key of at most this.passwordLength values
