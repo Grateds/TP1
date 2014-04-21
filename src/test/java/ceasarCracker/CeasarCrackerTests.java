@@ -108,7 +108,7 @@ public class CeasarCrackerTests {
 		String output2 = CeasarCracker.decode("ioma", key);
 		assertEquals("hola", output2);
 	}
-
+	
 	@Test
 	public void testMoreComplexKey() throws UnsupportedEncodingException {
 		int[] key = { 20, 150, 101 };
@@ -227,81 +227,73 @@ public class CeasarCrackerTests {
 		assertTrue("encoding key is correct", Arrays.equals(key, result));
 	}
 
-	@Test
-	public void testOneSumOfArrangements() {
-		// check if the sum of two arrays is correct
-		int[] key = { 1, 2, 0 };
-		int[] arreAscii = { 10, 15, 256 };
-		int[] ev = { 11, 17, 256 }; // expected value
-		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
-
-		assertTrue(Arrays.equals(ev, result));
-	}
-
-	@Test
-	public void testTwoSumOfArrangements() {
-		// check if the sum of two arrays is correct
-		int[] key = { 1, 0 };
-		int[] arreAscii = { 35, 23, 256, 1 };
-		int[] ev = { 36, 23, 2, 1 }; // expected value
-		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
-
-		assertTrue(Arrays.equals(ev, result));
-	}
-
-	@Test
-	public void testFourSumOfArrangements() {
-		// check if the sum of two arrays is correct
-		int[] key = { 1, 256 };
-		int[] arreAscii = { 35, 256 };
-		int[] ev = { 36, 257 }; // expected value
-		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
-
-		assertTrue(Arrays.equals(ev, result));
-	}
-
-	@Test
-	public void testOneSubtractionOfArrangements(){  
-		int[] key = {1,0};
-		int[] arreAscii = {105, 111, 109, 97};
-		int[] ev = {104, 111, 108, 97}; // expected value
-		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
-		
-		assertTrue(Arrays.equals(ev, result));
-	}
-	
-	@Test
-	public void testTwoSubtractionOfArrangements(){  
-		int[] key = {1,0};
-		int[] arreAscii = {0,2};
-		int[] ev = {256,2}; // expected value
-		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
-		
-		assertTrue(Arrays.equals(ev, result));
-	}
-	
+//	@Test
+//	public void testOneSumOfArrangements() {
+//		// check if the sum of two arrays is correct
+//		int[] key = { 1, 2, 0 };
+//		int[] arreAscii = { 10, 15, 256 };
+//		int[] ev = { 11, 17, 256 }; // expected value
+//		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
+//
+//		assertTrue(Arrays.equals(ev, result));
+//	}
+//
+//	@Test
+//	public void testTwoSumOfArrangements() {
+//		// check if the sum of two arrays is correct
+//		int[] key = { 1, 0 };
+//		int[] arreAscii = { 35, 23, 256, 1 };
+//		int[] ev = { 36, 23, 2, 1 }; // expected value
+//		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
+//
+//		assertTrue(Arrays.equals(ev, result));
+//	}
+//
+//	@Test
+//	public void testFourSumOfArrangements() {
+//		// check if the sum of two arrays is correct
+//		int[] key = { 1, 256 };
+//		int[] arreAscii = { 35, 256 };
+//		int[] ev = { 36, 257 }; // expected value
+//		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
+//
+//		assertTrue(Arrays.equals(ev, result));
+//	}
+//
+//	@Test
+//	public void testOneSubtractionOfArrangements(){  
+//		int[] key = {1,0};
+//		int[] arreAscii = {105, 111, 109, 97};
+//		int[] ev = {104, 111, 108, 97}; // expected value
+//		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
+//		
+//		assertTrue(Arrays.equals(ev, result));
+//	}
+//	
 	@Test
 	public void testMoreCoplexSumOfArrangements() {
 		// check if the sum of two arrays is correct
 		int[] key = { 1, 2, 1 };
-		int[] arreAscii = { 35, 256, 6, 2, 9 };
-		int[] ev = { 36, 3, 7, 3, 11 }; // expected value
-		int[] result = CeasarCracker.sumOfArrangements(key, arreAscii);
+		String s = "hola";
+		char[] ev = { 'i', 'q', 'm', 'b'}; // expected value
+		char[] result = CeasarCracker.sumOfArrangements(key, s);
 
 		assertTrue(Arrays.equals(ev, result));
 	}
-
-	@Test
-	public void testStringToArray() throws UnsupportedEncodingException {
-		String string = "hola";
-		int[] ev = { 104, 111, 108, 97 }; // expected value
-		int[] result = CeasarCracker.stringToArray(string);
-		assertTrue(Arrays.equals(ev, result));
-	}
+//	
+//	@Test
+//	public void testTwoSubtractionOfArrangements(){  
+//		int[] key = {1,0};
+//		int[] arreAscii = {0,2};
+//		int[] ev = {256,2}; // expected value
+//		int[] result = CeasarCracker.subtractionOfArrangements(key, arreAscii);
+//		
+//		assertTrue(Arrays.equals(ev, result));
+//	}
 
 	@Test
 	public void testArrayToString() throws UnsupportedEncodingException {
-		int[] s = { 104, 111, 108, 97 };
+		char[] s = { 'h', 'o', 'l', 'a' };
 		String string = "hola"; // expected value
 		assertEquals(string, CeasarCracker.arrayToString(s));
 	}

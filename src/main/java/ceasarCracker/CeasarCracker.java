@@ -15,7 +15,7 @@ public class CeasarCracker {
 	private String m; // encryptedMessage
 	private String w; // word
 	private int k; // k
-
+	
 	/**
 	 * Default constructor. Sets both known message word and encrypted message
 	 * to "". Maximum password length to be tried is set to 1.
@@ -101,22 +101,23 @@ public class CeasarCracker {
 	}
 
 	/**
+	 * 
 	 * @param key
-	 * @param wordToAscii
+	 * @param wordAsCharArray
 	 * 
 	 * @return res
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static int[] sumOfArrangements(int[] key, int[] wordToAscii) {
-		int[] res = new int[wordToAscii.length];
+	public static char[] sumOfArrangements(int[] key, String word) {
+		char[] res = word.toCharArray();
 		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
 			q.enqueue(key[i]);
 		Iterator it = q.iterator();
-		for (int i = 0; i < wordToAscii.length; i++) {
-			res[i] += wordToAscii[i] + (Integer) it.next();
-			if (res[i] > 256)
-				res[i] = res[i] - 255;
+		for (int i = 0; i < res.length; i++) {
+			int N = (Integer) it.next();
+			for (int j = 0; j < N; j++) 
+				res[i]++; 
 		}
 		return res;
 	}
@@ -124,53 +125,34 @@ public class CeasarCracker {
 	/**
 	 * 
 	 * @param key
-	 * @param wordToAscii
+	 * @param wordAsCharArray
 	 * @return res
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static int[] subtractionOfArrangements(int[] key, int[] wordToAscii) {
-		int[] res = new int[wordToAscii.length];
+	public static char[] subOfArrangements(int[] key, String word) {
+		char[] res = word.toCharArray();
 		IterableCircularQueue<Integer> q = new IterableCircularQueue(key.length);
 		for (int i = 0; i < key.length; i++)
 			q.enqueue(key[i]);
 		Iterator it = q.iterator();
-		for (int i = 0; i < wordToAscii.length; i++) {
-			res[i] += wordToAscii[i] - (Integer) it.next();
-			if (res[i] < 0)
-				res[i] = res[i] + 257;
+		for (int i = 0; i < res.length; i++) {
+			int N = (Integer) it.next();
+			for (int j = 0; j < N; j++) 
+				res[i]--; 
 		}
 		return res;
 	}
 
-	/**
-	 * Converts word to an array of ASCII numbers
-	 * 
-	 * @param String word 
-	 * 					is the known word from the unencrypted message.
-	 * @return int[]
-	 * @throws UnsupportedEncodingException
-	 */
-	public static int[] stringToArray(String word) throws UnsupportedEncodingException {
-		String s = word;
-		byte[] b = s.getBytes("ASCII");
-		int[] arre = new int[b.length];
-		for (int i = 0; i < b.length; i++) {
-			arre[i] = b[i];
-		}
-		return arre;
-	}
 	
 	/**
 	 * 
 	 * @param word
 	 * @return String
-	 * @throws UnsupportedEncodingException
 	 */
-	public static String arrayToString(int[] word) throws UnsupportedEncodingException {
+	public static String arrayToString(char[] word) {
 		String s = "";
-		for (int i = 0; i < word.length; i++) {
-			s = s + Character.toString ((char) word[i]);
-		}	
+		for (int i = 0; i < word.length; i++) 
+			s = s + word[i];
 		return s;
 	}
 	
@@ -189,9 +171,8 @@ public class CeasarCracker {
 		if(message == null) throw new IllegalArgumentException("The message must not be null!");
 		if(key == null) throw new IllegalArgumentException("The key must not be null!");
 		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
-		int[] res = new int[message.length()];
-		int[] messageBytes = stringToArray(message);
-		res = sumOfArrangements(key, messageBytes);
+		char[] res = new char[message.length()];
+		res = sumOfArrangements(key, message);
 		return arrayToString(res);
 	}
 
@@ -210,9 +191,8 @@ public class CeasarCracker {
 		if(message == null) throw new IllegalArgumentException("The message must not be null!");
 		if(key == null) throw new IllegalArgumentException("The key must not be null!");
 		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
-		int[] res = new int[message.length()];
-		int[] messageBytes = stringToArray(message);
-		res = subtractionOfArrangements(key, messageBytes);
+		char[] res = new char[message.length()];
+		res = subOfArrangements(key, message);
 		return arrayToString(res);
 	}
 	
@@ -244,15 +224,14 @@ public class CeasarCracker {
 	 */
 	public int[] foundKey() throws UnsupportedEncodingException {
 		Key key = new Key();
-		int[] sum = new int[w.length()];
+		char[] res = new char[w.length()];
 		String matcher;
 		boolean foundKey = false;
-		int[] wordBytes = stringToArray(w);
 		for (int i = 1; i <=k; i++) {
 			key = new Key(i);
 			while(!key.isComplete() && !foundKey){
-				sum = sumOfArrangements(key.get(), wordBytes);
-				matcher = arrayToString(sum);
+				res = sumOfArrangements(key.get(), w);
+				matcher = arrayToString(res);
 				if(m.contains(matcher))
 					foundKey = true;	
 				else key.inc();
