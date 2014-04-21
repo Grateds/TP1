@@ -16,14 +16,16 @@ public class CeasarCracker {
 	private String w; // word
 	private int k; // k
 	
+	private char[] mAsCharArray;
+	
 	/**
 	 * Default constructor. Sets both known message word and encrypted message
 	 * to "". Maximum password length to be tried is set to 1.
 	 */
 	public CeasarCracker() {
-		m = "";
-		w = "";
-		k = 1;
+		this.m = "";
+		this.w = "";
+		this.k = 1;
 	}
 
 	/**
@@ -31,9 +33,10 @@ public class CeasarCracker {
 	 * Maximum password length to be tried is set to 1.
 	 */
 	public CeasarCracker(String encryptedMessage, String word) {
-		k = 1; // default pass length
-		m = encryptedMessage;
-		w = word;
+		this.k = 1; // default pass length
+		this.m = encryptedMessage;
+		this.w = word;
+		this.mAsCharArray = m.toCharArray();
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class CeasarCracker {
 	 * @return the maximum length to be tried for password cracking.
 	 */
 	public int getPasswordLength() {
-		return k;
+		return this.k;
 	}
 
 	/**
@@ -55,7 +58,7 @@ public class CeasarCracker {
 	 * 			is the new maximum length for the passwords to try for cracking.
 	 */
 	public void setPasswordLength(int length) {
-		k = length;
+		this.k = length;
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class CeasarCracker {
 	 * @return the known word of the unencrypted message.
 	 */
 	public String getMessageWord() {
-		return w;
+		return this.w;
 	}
 
 	/**
@@ -78,7 +81,8 @@ public class CeasarCracker {
 	 * 			is the known word from the unencrypted message.
 	 */
 	public void setMessageWord(String word) {
-		w = word;
+		if(word == null) throw new IllegalArgumentException("The word must not be null!");
+		this.w = word;
 	}
 
 	/**
@@ -87,7 +91,7 @@ public class CeasarCracker {
 	 * @return the encrypted message.
 	 */
 	public String getEncryptedMessage() {
-		return m;
+		return this.m;
 	}
 
 	/**
@@ -97,7 +101,9 @@ public class CeasarCracker {
 	 * 				is the encrypted message to set for the cracker.
 	 */
 	public void setEncryptedMessage(String message) {
-		m = message;
+		if(message == null) throw new IllegalArgumentException("The message must not be null!");
+		this.m = message;
+		this.mAsCharArray = m.toCharArray();
 	}
 
 	/**
@@ -143,7 +149,6 @@ public class CeasarCracker {
 		return res;
 	}
 
-	
 	/**
 	 * 
 	 * @param word
@@ -167,7 +172,7 @@ public class CeasarCracker {
 	 * @return the message encoded with the provided key.
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static String encode(String message, int[] key) throws UnsupportedEncodingException {
+	public static String encode(String message, int[] key) {
 		if(message == null) throw new IllegalArgumentException("The message must not be null!");
 		if(key == null) throw new IllegalArgumentException("The key must not be null!");
 		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
@@ -187,7 +192,7 @@ public class CeasarCracker {
 	 * @return the message decoded with the provided key.
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static String decode(String message, int[] key) throws UnsupportedEncodingException{
+	public static String decode(String message, int[] key) {
 		if(message == null) throw new IllegalArgumentException("The message must not be null!");
 		if(key == null) throw new IllegalArgumentException("The key must not be null!");
 		if(key.length < 1) throw new IllegalArgumentException("The key's length must be greater than cero!");
@@ -205,9 +210,7 @@ public class CeasarCracker {
 	 * @return true iff brute force decryption succeeded.
 	 * @throws UnsupportedEncodingException 
 	 */
-	public boolean bruteForceDecrypt() throws UnsupportedEncodingException {
-		if(m == null) throw new IllegalArgumentException("The encrypted message must not be null!");
-		if(w == null) throw new IllegalArgumentException("The message word must not be null!");
+	public boolean bruteForceDecrypt() {
 		if(w.length()>m.length()) throw new IllegalStateException("The message's length must be greater-equal than word's length");
 		if(k < 1) throw new IllegalStateException("The password's length must be greater than cero");
 		return this.foundKey() != null;
@@ -222,17 +225,15 @@ public class CeasarCracker {
 	 * decryption not executed)
 	 * @throws UnsupportedEncodingException
 	 */
-	public int[] foundKey() throws UnsupportedEncodingException {
+	public int[] foundKey() {
 		Key key = new Key();
-		char[] res = new char[w.length()];
-		String matcher;
+		char[] res = new char[this.w.length()];
 		boolean foundKey = false;
-		for (int i = 1; i <=k; i++) {
+		for (int i = 1; i <=this.k; i++) {
 			key = new Key(i);
 			while(!key.isComplete() && !foundKey){
-				res = sumOfArrangements(key.get(), w);
-				matcher = arrayToString(res);
-				if(m.contains(matcher))
+				res = sumOfArrangements(key.get(), this.w);
+				if(contains(this.mAsCharArray,res))
 					foundKey = true;	
 				else key.inc();
 			}
@@ -241,4 +242,22 @@ public class CeasarCracker {
 		if(foundKey)return key.get();
 		else return null;
 	}
+	
+	public static boolean contains(char[] array, char[]sub){
+        if(array == null || sub == null) throw new IllegalArgumentException("The arrays must not be null!");
+        if(array.length<sub.length) return false;
+        boolean itContains = false;
+        int i = 0;
+        int counter;
+        while (i < array.length && !itContains) {
+            counter = 0;
+            for (int j = 0; j < sub.length; j++) {
+                if(i+j >= array.length || array[i+j] != sub[j]) break;
+                else counter++;
+            }
+            if(counter == sub.length) itContains = true;
+            i++;
+        }
+        return itContains;
+    }
 }
