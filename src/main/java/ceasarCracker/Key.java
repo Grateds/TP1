@@ -41,12 +41,12 @@ public class Key {
 
 	public void inc(int[] a, int begin, int end) {
 		if (begin == end)
-			a[begin] += 1;
+			a[end] += 1;
 		else {
-			if(a[begin] != BOUND) a[begin] += 1;
+			if(a[end] != BOUND) a[end] += 1;
 			else{
-				a[begin] = 0;
-				inc(a,begin+1,end);
+				a[end] = 0;
+				inc(a,begin,end-1);
 			}
 		}
 	}
