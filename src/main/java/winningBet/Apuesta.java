@@ -9,13 +9,19 @@ package main.java.winningBet;
  * @version 0.1 14/04/2014
  */
 public class Apuesta {
+	private String usuario;
+	public static int nroEquipos;
+	private int[] posiciones;
 		
 	/**
 	 * Constructor que crea una apuesta vac�a, dado el nombre del apostador.
 	 * @param usuario es el nombre del apostador.
 	 */
 	public Apuesta(String usuario) {
-		//TODO implementar esta rutina
+		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo"); 
+		this.usuario = usuario;
+		Apuesta.nroEquipos = 0;
+		this.posiciones = null;
 	}
 
 	/**
@@ -26,7 +32,12 @@ public class Apuesta {
 	 * @param posiciones es la apuesta.
 	 */
 	public Apuesta(String usuario, int NroEquipos, int[] posiciones) {
-		//TODO implementar esta rutina
+		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo");
+		if (posiciones == null) throw new IllegalArgumentException("La lista de posiciones deben ser nula");
+		if (NroEquipos != posiciones.length) throw new IllegalArgumentException("El numero de equipos debe coincidir con la cantidad de posiciones");
+		this.usuario = usuario;
+		Apuesta.nroEquipos = NroEquipos;
+		this.posiciones = posiciones;
 	}
 
 	/**
@@ -34,7 +45,7 @@ public class Apuesta {
 	 * @param es el nuevo n�mero de equipos de la apuesta
 	 */
 	public void cambiarNroEquipos(int i) {
-		//TODO implementar esta rutina
+		Apuesta.nroEquipos = i;
 	}
 	
 	/**
@@ -42,8 +53,7 @@ public class Apuesta {
 	 * @return el n�mero de equipos de la apuesta.
 	 */
 	public int nroEquipos() {
-		//TODO implementar esta rutina
-		return 0;
+		return Apuesta.nroEquipos;
 	}
 
 	/**
@@ -51,8 +61,7 @@ public class Apuesta {
 	 * @return el orden de los equipos seleccionado por el usuario en su apuesta.
 	 */
 	public int[] posiciones() {
-		//TODO implementar esta rutina
-		return null;
+		return this.posiciones;
 	}
 
 	/**
@@ -60,7 +69,7 @@ public class Apuesta {
 	 * @param posiciones es el nuevo orden establecido por el usuario para los equipos del torneo.
 	 */
 	public void cambiarPosiciones(int[] posiciones) {
-		//TODO implementar esta rutina
+		this.posiciones = posiciones;
 	}
 
 	/**
@@ -68,8 +77,7 @@ public class Apuesta {
 	 * @return el nombre del usuario que emite la apuesta.
 	 */
 	public String usuario() {
-		//TODO implementar esta rutina
-		return null;
+		return this.usuario;
 	}
 
 

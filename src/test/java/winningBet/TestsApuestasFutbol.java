@@ -24,7 +24,7 @@ public class TestsApuestasFutbol {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void crearApuestaInvalida() {
+	public void crearApuestaInvalida() { 
 		new Apuesta(null);
 	}
 
@@ -270,7 +270,7 @@ public class TestsApuestasFutbol {
 	@Test(expected=IllegalStateException.class)
 	public void obtengoGanadoresSinComputarlos() {
 		ColeccionApuestas apuestas = new ColeccionApuestas(4);
-		apuestas.ganadores();
+		apuestas.ganadores(); // TODO: Consultar.!
 		// Debe romperse. Deben computarse los ganadores antes de obtenerlos.
 	}
 
