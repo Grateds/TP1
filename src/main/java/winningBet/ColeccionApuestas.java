@@ -1,5 +1,6 @@
 package main.java.winningBet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,15 +18,19 @@ import java.util.List;
  * @version 0.1 14/04/2014
  */
 public class ColeccionApuestas {
-	
-	private int numEquipos;
 
+	private int nroEquipos;
+	private ArrayList<Apuesta> apuestas;
+	private ArrayList<String> usuarios;
+	private List<String> ganadores = new ArrayList<String>();
 	
 	/**
 	 * Constructor por defecto. Setea el número de equipos en 2 (el mínimo posible). 
 	 */
 	public ColeccionApuestas() {
-		this.numEquipos = 2;
+		this.apuestas = new ArrayList<Apuesta>();
+		this.usuarios = new ArrayList<String>();
+		this.nroEquipos = 2;
 	}
 
 	
@@ -35,7 +40,10 @@ public class ColeccionApuestas {
 	 * 				es el número de equipos del campeonato.
 	 */
 	public ColeccionApuestas(int nroEquipos) {
-		this.numEquipos = 2;
+		if(Apuesta.nroEquipos != nroEquipos) throw new IllegalArgumentException("Número de equipos en apuesta no coincide con coleccion apuestas");
+		this.apuestas = new ArrayList<Apuesta>();
+		this.usuarios = new ArrayList<String>();
+		this.nroEquipos = nroEquipos;
 	}
 
 	/**
@@ -43,7 +51,7 @@ public class ColeccionApuestas {
 	 * @return número de apuestas registradas en el sistema.
 	 */
 	public int numApuestas() {
-		return 0;
+		return this.apuestas.size();
 	}
 
 	/**
@@ -54,7 +62,9 @@ public class ColeccionApuestas {
 	 * 			es la apuesta a agregar en el sistema. 
 	 */
 	public void agregar(Apuesta apuesta) {
-		//TODO implementar esta rutina
+		if (usuarios.contains(apuesta.usuario())) throw new IllegalArgumentException ("Cada usuario puede apostar solo una vez");
+		this.apuestas.add(apuesta);
+		this.usuarios.add(apuesta.usuario());
 	}
 
 	/**
@@ -64,7 +74,8 @@ public class ColeccionApuestas {
 	 * 		es el nuevo nímero de equipos en el campeonato.
 	 */
 	public void cambiarNroEquipos(int i) {
-		//TODO implementar esta rutina
+		if(this.apuestas.size()>0) throw new IllegalStateException("No es posible cambiar el numero de equipos en colección no vacía");
+		this.nroEquipos = i;
 	}
 
 	/**
@@ -82,7 +93,7 @@ public class ColeccionApuestas {
 	 * @return la lista de ganadores del sistema.
 	 */
 	public List<String> ganadores() {
-		//TODO implementar esta rutina
+		if(ganadores.size() == 0) throw new IllegalStateException("Deben computarse los ganadores antes de obtenerlos");
 		return null;
 	}
 
@@ -95,5 +106,4 @@ public class ColeccionApuestas {
 	public void calcularGanadores() {
 		//TODO implementar esta rutina
 	}
-
 }

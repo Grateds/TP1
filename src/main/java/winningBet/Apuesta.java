@@ -11,11 +11,11 @@ package main.java.winningBet;
  * @version 0.1 14/04/2014
  */
 public class Apuesta {
-	
+
 	private String usuario;
-	private int nEquipos;
+	public static int nroEquipos;
 	private int[] posiciones;
-	
+		
 	/**
 	 * Constructor que crea una apuesta vacía, dado el nombre del apostador.
 	 * 
@@ -23,9 +23,9 @@ public class Apuesta {
 	 *            es el nombre del apostador.
 	 */
 	public Apuesta(String usuario) {
-		if(usuario == null) throw new IllegalArgumentException("El nombre del apostador no puede ser nulo");
+		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo"); 
 		this.usuario = usuario;
-		this.nEquipos = 0;
+		Apuesta.nroEquipos = 0;
 		this.posiciones = null;
 	}
 
@@ -42,11 +42,12 @@ public class Apuesta {
 	 *            es la apuesta.
 	 */
 	public Apuesta(String usuario, int NroEquipos, int[] posiciones) {
-		if(usuario == null) throw new IllegalArgumentException("El nombre del apostador no puede ser nulo");
-		if(posiciones == null) throw new IllegalArgumentException("Las posiciones no pueden ser nulas");
-		if(NroEquipos != posiciones.length) throw new IllegalArgumentException("El número de equipos debe coincidir con la cantidad de posiciones");
+
+		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo");
+		if (posiciones == null) throw new IllegalArgumentException("La lista de posiciones deben ser nula");
+		if (NroEquipos != posiciones.length) throw new IllegalArgumentException("El numero de equipos debe coincidir con la cantidad de posiciones");
 		this.usuario = usuario;
-		this.nEquipos = NroEquipos;
+		Apuesta.nroEquipos = NroEquipos;
 		this.posiciones = posiciones;
 	}
 
@@ -57,7 +58,7 @@ public class Apuesta {
 	 *            el nuevo número de equipos de la apuesta
 	 */
 	public void cambiarNroEquipos(int i) {
-		this.nEquipos = i;
+		Apuesta.nroEquipos = i;
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class Apuesta {
 	 * @return el número de equipos de la apuesta.
 	 */
 	public int nroEquipos() {
-		return this.nEquipos;
+		return Apuesta.nroEquipos;
 	}
 
 	/**
