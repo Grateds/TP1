@@ -20,9 +20,10 @@ import java.util.List;
 public class ColeccionApuestas {
 
 	private int nroEquipos;
+	private int[] posiciones;
 	private ArrayList<Apuesta> apuestas;
 	private ArrayList<String> usuarios;
-	private List<String> ganadores = new ArrayList<String>();
+	private List<String> ganadores;
 	
 	/**
 	 * Constructor por defecto. Setea el número de equipos en 2 (el mínimo posible). 
@@ -31,6 +32,7 @@ public class ColeccionApuestas {
 		this.apuestas = new ArrayList<Apuesta>();
 		this.usuarios = new ArrayList<String>();
 		this.nroEquipos = 2;
+		this.ganadores = null;
 	}
 
 	
@@ -44,6 +46,7 @@ public class ColeccionApuestas {
 		this.apuestas = new ArrayList<Apuesta>();
 		this.usuarios = new ArrayList<String>();
 		this.nroEquipos = nroEquipos;
+		this.ganadores = null;
 	}
 
 	/**
@@ -93,8 +96,8 @@ public class ColeccionApuestas {
 	 * @return la lista de ganadores del sistema.
 	 */
 	public List<String> ganadores() {
-		if(ganadores.size() == 0) throw new IllegalStateException("Deben computarse los ganadores antes de obtenerlos");
-		return null;
+		if(this.ganadores == null) throw new IllegalStateException("Deben computarse los ganadores antes de obtenerlos");
+		return this.ganadores;
 	}
 
 	/**
@@ -104,6 +107,6 @@ public class ColeccionApuestas {
 	 * ganadores() (lista de ganadores, vacía si no hubo apuestas).
 	 */
 	public void calcularGanadores() {
-		//TODO implementar esta rutina
+		this.ganadores = new ArrayList<String>();
 	}
 }
