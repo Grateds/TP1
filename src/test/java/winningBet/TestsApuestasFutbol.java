@@ -5,8 +5,8 @@ import main.java.winningBet.*;
 import org.junit.Test;
 
 /**
- * Esta clase contiene tests para todas las rutinas p�blicas de  las clases que participan
- * de la implementaci�n del sistema de apuestas de f�tbol. 
+ * Esta clase contiene tests para todas las rutinas públicas de  las clases que participan
+ * de la implementación del sistema de apuestas de fútbol. 
  * @author Nazareno Aguirre
  * @version 0.1 14/04/2014
  */
@@ -101,7 +101,7 @@ public class TestsApuestasFutbol {
 		ColeccionApuestas apuestas = new ColeccionApuestas(3);
 		apuestas.agregar(apuesta);
 		apuestas.cambiarNroEquipos(4);
-		// debe fallar! Colecci�n no vac�a, y se quiere cambiar el
+		// debe fallar! Colección no vacía, y se quiere cambiar el
 		// nro. de equipos.
 	}
 
@@ -153,7 +153,7 @@ public class TestsApuestasFutbol {
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
 		// Debe fallar! Se agrega una apuesta de un usuario existente.
-		// Cada usuario puede apostar s�lo una vez.
+		// Cada usuario puede apostar sólo una vez.
 	}
 
 	@Test
@@ -264,7 +264,7 @@ public class TestsApuestasFutbol {
 		ColeccionApuestas apuestas = new ColeccionApuestas(4);
 		int[] posicionesFinales = {1,2,3};
 		apuestas.establecerPosicionesFinales(posicionesFinales);
-		// Debe romperse. N�mero de equipos en pos finales no coinciden con los del sistema de apuestas
+		// Debe romperse. Número de equipos en pos finales no coinciden con los del sistema de apuestas
 	}
 
 	@Test(expected=IllegalStateException.class)
