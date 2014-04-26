@@ -44,7 +44,7 @@ public class Apuesta {
 	public Apuesta(String usuario, int NroEquipos, int[] posiciones) {
 
 		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo");
-		if (posiciones == null) throw new IllegalArgumentException("La lista de posiciones deben ser nula");
+		if (posiciones == null) throw new IllegalArgumentException("La lista de posiciones no deben ser nula");
 		if (NroEquipos != posiciones.length) throw new IllegalArgumentException("El numero de equipos debe coincidir con la cantidad de posiciones");
 		this.usuario = usuario;
 		Apuesta.nroEquipos = NroEquipos;
