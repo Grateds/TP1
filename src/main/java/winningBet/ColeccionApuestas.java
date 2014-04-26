@@ -24,6 +24,7 @@ public class ColeccionApuestas {
 	private ArrayList<Apuesta> apuestas;
 	private ArrayList<String> usuarios;
 	private List<String> ganadores;
+	private static int contador = 0;
 	
 	/**
 	 * Constructor por defecto. Setea el número de equipos en 2 (el mínimo posible). 
