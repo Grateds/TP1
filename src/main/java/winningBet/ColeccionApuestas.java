@@ -109,4 +109,53 @@ public class ColeccionApuestas {
 	public void calcularGanadores() {
 		this.ganadores = new ArrayList<String>();
 	}
+	
+	public static int inversiones(Comparable[] array, int begin, int end){
+		if (begin < end){
+			int mid = (begin + end)/2;
+			inversiones(array, begin, mid);	
+			inversiones(array, mid+1, end);	
+			calculoInversiones(array, begin, mid, end);	
+		}
+		return contador;
+	} 
+
+	private static void calculoInversiones(Comparable[] array, int begin, int mid, int end){
+		int maxSize = array.length; 
+		Comparable[] tempArray = new Comparable[maxSize];
+		int first1 = begin;
+		int last1 = mid;
+		int first2 = mid + 1;
+		int last2 = end;
+		int index = first1;
+		
+		while((first1<=last1) && (first2 <= last2)){
+			if (array[first1].compareTo(array[first2])<0){
+				tempArray[index] = array[first1];
+				first1++;
+			}
+			else{
+				tempArray[index] = array[first2];
+				first2++;
+				contador = contador + (last1 +1 - first1);
+			}
+			index++;		
+		}
+		
+		while (first1 <=last1){
+			tempArray[index] = array[first1];
+			first1++;
+			index++;
+		}
+		
+		while (first2<= last2){
+			tempArray[index] = array[first2];
+			first2++;
+			index++;	
+		}
+
+		for (index = begin; index <= end; ++index){
+			array[index] = tempArray[index];
+		}
+	}
 }
