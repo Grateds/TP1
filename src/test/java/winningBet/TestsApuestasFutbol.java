@@ -284,10 +284,18 @@ public class TestsApuestasFutbol {
 	}
 	
 	@Test
-	public void inversiones() {
-		Comparable arreglo [] = { 1, 5, 4, 8, 10, 2, 6, 9, 12, 11, 3, 7};
-		ColeccionApuestas apuestas = new ColeccionApuestas(4);
+	public void inversionesSimple() {
+		Comparable arreglo [] = {4,6,2,3,1};
+		ColeccionApuestas apuestas = new ColeccionApuestas();
 		
-	        assertEquals(22,apuestas.inversiones(arreglo,0,arreglo.length-1));
+	    assertEquals(8,apuestas.inversiones(arreglo,0,arreglo.length-1));
+	}
+	
+	@Test
+	public void inversionesComplejo() {
+		Comparable arreglo [] = { 1, 5, 4, 8, 10, 2, 6, 9, 12, 11, 3, 7};
+		ColeccionApuestas apuestas = new ColeccionApuestas();
+		
+	    assertEquals(22,apuestas.inversiones(arreglo,0,arreglo.length-1));
 	}
 }
