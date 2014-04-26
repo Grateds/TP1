@@ -283,4 +283,11 @@ public class TestsApuestasFutbol {
 		assertTrue("no hay ganadores", apuestas.ganadores().isEmpty());
 	}
 	
+	@Test
+	public void inversiones() {
+		Comparable arreglo [] = { 1, 5, 4, 8, 10, 2, 6, 9, 12, 11, 3, 7};
+		ColeccionApuestas apuestas = new ColeccionApuestas(4);
+		
+	        assertEquals(22,apuestas.inversiones(arreglo,0,arreglo.length-1));
+	}
 }
