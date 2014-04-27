@@ -13,7 +13,7 @@ package main.java.winningBet;
 public class Apuesta {
 
 	private String usuario;
-	public static int nroEquipos;
+	private int nroEquipos;
 	private int[] posiciones;
 		
 	/**
@@ -25,7 +25,7 @@ public class Apuesta {
 	public Apuesta(String usuario) {
 		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo"); 
 		this.usuario = usuario;
-		Apuesta.nroEquipos = 0;
+		this.nroEquipos = 0;
 		this.posiciones = null;
 	}
 
@@ -47,7 +47,7 @@ public class Apuesta {
 		if (posiciones == null) throw new IllegalArgumentException("La lista de posiciones deben ser nula");
 		if (NroEquipos != posiciones.length) throw new IllegalArgumentException("El numero de equipos debe coincidir con la cantidad de posiciones");
 		this.usuario = usuario;
-		Apuesta.nroEquipos = NroEquipos;
+		this.nroEquipos = NroEquipos;
 		this.posiciones = posiciones;
 	}
 
@@ -58,7 +58,7 @@ public class Apuesta {
 	 *            el nuevo número de equipos de la apuesta
 	 */
 	public void cambiarNroEquipos(int i) {
-		Apuesta.nroEquipos = i;
+		this.nroEquipos = i;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class Apuesta {
 	 * @return el número de equipos de la apuesta.
 	 */
 	public int nroEquipos() {
-		return Apuesta.nroEquipos;
+		return this.nroEquipos;
 	}
 
 	/**

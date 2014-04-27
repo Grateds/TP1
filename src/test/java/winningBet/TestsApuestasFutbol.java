@@ -2,6 +2,7 @@ package test.java.winningBet;
 
 import static org.junit.Assert.*;
 import main.java.winningBet.*;
+
 import org.junit.Test;
 
 /**
@@ -205,8 +206,7 @@ public class TestsApuestasFutbol {
 		apuestas.agregar(apuesta8);
 		apuestas.agregar(apuesta9);
 		apuestas.agregar(apuesta10);
-		assertEquals(10, apuestas.numApuestas());
-		
+		assertEquals(10, apuestas.numApuestas());	
 		apuestas.establecerPosicionesFinales(posiciones10);
 		apuestas.calcularGanadores();
 		assertEquals(2, apuestas.ganadores().size());
@@ -215,20 +215,24 @@ public class TestsApuestasFutbol {
 	}
 
 	@Test
-	public void calculoGanadoresMuchasApuestasLargas() {
+	public void calculoGanadoresMuchasApuestasLargas() {     
 
 		ColeccionApuestas apuestas = new ColeccionApuestas(20);
-		for (int i=0; i<500000; i++) {
+		for (int i=0; i<5000; i++) {
 			int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 			Apuesta apuesta = new Apuesta("usuario "+i, 20, posiciones);
 			apuestas.agregar(apuesta);
 		}
-		assertEquals(500000, apuestas.numApuestas());
+		
+		assertEquals(5000, apuestas.numApuestas());
 		
 		int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 		apuestas.establecerPosicionesFinales(posiciones);
 		apuestas.calcularGanadores();
-		assertEquals(500000, apuestas.ganadores().size());
+		
+		
+		assertEquals(5000, apuestas.ganadores().size());
+		
 		assertTrue(apuestas.ganadores().contains("usuario 10"));
 		assertTrue(apuestas.ganadores().contains("usuario 7"));
 	}
@@ -269,8 +273,11 @@ public class TestsApuestasFutbol {
 
 	@Test(expected=IllegalStateException.class)
 	public void obtengoGanadoresSinComputarlos() {
+		int[] posiciones1 = {4,3,2,1};
+		Apuesta apuesta1 = new Apuesta("usuario 1", 4, posiciones1);
 		ColeccionApuestas apuestas = new ColeccionApuestas(4);
-		apuestas.ganadores(); // TODO: Consultar.!
+		apuestas.agregar(apuesta1);
+		apuestas.ganadores();
 		// Debe romperse. Deben computarse los ganadores antes de obtenerlos.
 	}
 
@@ -282,5 +289,25 @@ public class TestsApuestasFutbol {
 		apuestas.calcularGanadores();
 		assertTrue("no hay ganadores", apuestas.ganadores().isEmpty());
 	}
+
+	@Test
+	public void inversionesSimple() {
+		ColeccionApuestas apuestas = new ColeccionApuestas(3);
+		int posicionesFinales [] = {4,6,2};
+		apuestas.establecerPosicionesFinales(posicionesFinales);	
+		int [] posiciones1 = {2,4,6};
+		int [] b = {0,0,2,0,0,0,1};
+		
+		assertEquals(2,apuestas.countInversion(posiciones1,b));
+	}
 	
+	@Test
+	public void inversionesComplejo() {
+		ColeccionApuestas apuestas = new ColeccionApuestas(20);
+		int posicionesFinales [] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};		
+		apuestas.establecerPosicionesFinales(posicionesFinales);	
+		int [] b = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+		
+		assertEquals(0,apuestas.countInversion(posicionesFinales,b));
+	}
 }
