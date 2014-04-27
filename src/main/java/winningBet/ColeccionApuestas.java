@@ -26,7 +26,7 @@ public class ColeccionApuestas {
 	private ArrayList<String> usuarios;
 	private List<String> ganadores;
 	private int banderaGanadores;
-	
+
 	/**
 	 * Constructor por defecto. Setea el número de equipos en 2 (el mínimo posible). 
 	 */
@@ -136,6 +136,7 @@ public class ColeccionApuestas {
 		}
 	}
 	
+
 	/**
      * Counts the number of inversions using divide and conquer in nlogn time
      * @param arr the original int array
