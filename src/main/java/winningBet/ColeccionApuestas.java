@@ -87,7 +87,9 @@ public class ColeccionApuestas {
 	 * @param posiciones es la tabla de posiciones final del torneo.
 	 */
 	public void establecerPosicionesFinales(int[] posiciones) {
-		//TODO implementar esta rutina
+		if(posiciones == null) throw new IllegalArgumentException("Las posiciones finales no pueden ser nulas!");
+		if(this.nroEquipos != posiciones.length) throw new IllegalArgumentException("Número de equipos en posiciones finales no coinciden con los del sistema de apuestas");
+		this.posiciones = posiciones;
 	}
 	
 	/**
