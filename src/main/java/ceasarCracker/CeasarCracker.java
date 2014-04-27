@@ -1,6 +1,5 @@
 package main.java.ceasarCracker;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
 
@@ -16,7 +15,7 @@ public class CeasarCracker {
 	private String w; // word
 	private int k; // k
 	
-	private char[] mAsCharArray;
+	private char[] mAsCharArray; // encrypted message as a char array
 	
 	/**
 	 * Default constructor. Sets both known message word and encrypted message
@@ -25,7 +24,7 @@ public class CeasarCracker {
 	public CeasarCracker() {
 		this.m = "";
 		this.w = "";
-		this.k = 1;
+		this.k = 1; // default pass length
 	}
 
 	/**
@@ -243,6 +242,13 @@ public class CeasarCracker {
 		else return null;
 	}
 	
+	/**
+	 * Verifies if an array contains another.
+	 * 
+	 * @param array
+	 * @param sub
+	 * @return true iff sub is a sub-array of array
+	 */
 	public static boolean contains(char[] array, char[]sub){
         if(array == null || sub == null) throw new IllegalArgumentException("The arrays must not be null!");
         if(array.length<sub.length) return false;

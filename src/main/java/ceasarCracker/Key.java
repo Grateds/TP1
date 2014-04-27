@@ -27,7 +27,7 @@ public class Key {
 	public boolean isComplete() {
 		int b = 1;
 		for (int i = 0; i < N; i++) {
-			if (key[i] != 256) {
+			if (key[i] != BOUND) {
 				b = b * 0;
 				break;
 			}
@@ -38,7 +38,7 @@ public class Key {
 	public void inc() {
 		inc(key, 0, N - 1);
 	}
-
+	
 	public void inc(int[] a, int begin, int end) {
 		if (begin == end)
 			a[end] += 1;

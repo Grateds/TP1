@@ -1,6 +1,7 @@
 package main.java.winningBet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,11 +21,12 @@ import java.util.List;
 public class ColeccionApuestas {
 
 	private int nroEquipos;
-	private int[] posiciones;
+	private int[] posicionesFinales;
 	private ArrayList<Apuesta> apuestas;
 	private ArrayList<String> usuarios;
 	private List<String> ganadores;
-	
+	private int banderaGanadores;
+
 	/**
 	 * Constructor por defecto. Setea el número de equipos en 2 (el mínimo posible). 
 	 */
@@ -33,6 +35,7 @@ public class ColeccionApuestas {
 		this.usuarios = new ArrayList<String>();
 		this.nroEquipos = 2;
 		this.ganadores = null;
+		this.banderaGanadores = 0;
 	}
 
 	
@@ -42,11 +45,11 @@ public class ColeccionApuestas {
 	 * 				es el número de equipos del campeonato.
 	 */
 	public ColeccionApuestas(int nroEquipos) {
-		if(Apuesta.nroEquipos != nroEquipos) throw new IllegalArgumentException("Número de equipos en apuesta no coincide con coleccion apuestas");
 		this.apuestas = new ArrayList<Apuesta>();
 		this.usuarios = new ArrayList<String>();
 		this.nroEquipos = nroEquipos;
 		this.ganadores = null;
+		this.banderaGanadores = 0;
 	}
 
 	/**
@@ -65,6 +68,7 @@ public class ColeccionApuestas {
 	 * 			es la apuesta a agregar en el sistema. 
 	 */
 	public void agregar(Apuesta apuesta) {
+		if (apuesta.nroEquipos() != this.nroEquipos) throw new IllegalArgumentException("Número de equipos en apuesta no coincide con coleccion apuestas");
 		if (usuarios.contains(apuesta.usuario())) throw new IllegalArgumentException ("Cada usuario puede apostar solo una vez");
 		this.apuestas.add(apuesta);
 		this.usuarios.add(apuesta.usuario());
@@ -87,9 +91,9 @@ public class ColeccionApuestas {
 	 * @param posiciones es la tabla de posiciones final del torneo.
 	 */
 	public void establecerPosicionesFinales(int[] posiciones) {
-		if(posiciones == null) throw new IllegalArgumentException("Las posiciones finales no pueden ser nulas!");
-		if(this.nroEquipos != posiciones.length) throw new IllegalArgumentException("Número de equipos en posiciones finales no coinciden con los del sistema de apuestas");
-		this.posiciones = posiciones;
+		if (posiciones == null) throw new IllegalArgumentException("Las posiciones finales no pueden ser nulas!");
+		if (posiciones.length != this.nroEquipos) throw new IllegalArgumentException("Número de equipos en posiciones finales no coinciden con los del sistema de apuestas");
+		this.posicionesFinales = posiciones;
 	}
 	
 	/**
@@ -98,7 +102,7 @@ public class ColeccionApuestas {
 	 * @return la lista de ganadores del sistema.
 	 */
 	public List<String> ganadores() {
-		if(this.ganadores == null) throw new IllegalStateException("Deben computarse los ganadores antes de obtenerlos");
+		if(this.banderaGanadores == 0) throw new IllegalStateException("Deben computarse los ganadores antes de obtenerlos");
 		return this.ganadores;
 	}
 
@@ -109,6 +113,74 @@ public class ColeccionApuestas {
 	 * ganadores() (lista de ganadores, vacía si no hubo apuestas).
 	 */
 	public void calcularGanadores() {
+		this.banderaGanadores = 1;
 		this.ganadores = new ArrayList<String>();
+		if (this.apuestas.size() > 0) {
+			int[] aux = new int[21];
+			for (int i = 0; i < this.posicionesFinales.length; i++) 
+				aux[this.posicionesFinales[i]] = i;
+			int minInv = this.countInversion(this.apuestas.get(0).posiciones(), aux);
+			this.ganadores.add(this.apuestas.get(0).usuario());
+			int count;
+			
+			for (int i = 1; i <	 this.apuestas.size(); i++) {
+				count = this.countInversion(this.apuestas.get(i).posiciones(), aux);
+				if (count < minInv) {
+					minInv = count;
+					this.ganadores = new ArrayList<String>();
+					this.ganadores.add(this.apuestas.get(i).usuario());
+				}
+				else if (count == minInv) this.ganadores.add(this.apuestas.get(i).usuario());
+			}
+		}
 	}
+	
+
+	/**
+     * Counts the number of inversions using divide and conquer in nlogn time
+     * @param arr the original int array
+     * @param n the length of the array
+     * @return the number of inversions in nlogn time
+     */
+    public int countInversion(int[] arr, int[] order) {
+        int len = arr.length;
+        if (len < 2)
+            return 0;
+        else {
+            int middle = len / 2;
+            int[] left = Arrays.copyOfRange(arr, 0, middle);
+            int[] right = Arrays.copyOfRange(arr, middle, len);
+
+            /* Counts left and right inversions */
+            int countLeft = countInversion(left,order);
+            int countRight = countInversion(right,order);
+
+            /* Counts the split inversions*/
+            int[] result = new int[len];
+            int countSplit = countSplitInversion(left, right, order, result);
+            
+            return countLeft + countRight + countSplit;
+        }
+    }
+
+    /**
+     * Counts the number of split inversions, i.e. inversions that occur in both halves of the array 
+     * @param left the left side of the original int array
+     * @param right the right side of the original int array
+     * @param n the length of the array
+     * @return the number of split inversions
+     */
+    private int countSplitInversion(int[] left, int[] right, int[] order, int[] result) {
+        int i = 0, j = 0, k = 0;
+        int count = 0;
+        while (i < left.length && j < right.length) {
+            if (order[left[i]] <= order[right[j]])
+                result[k++] = left[i++];
+            else {
+                result[k++] = right[j++];
+                count += left.length - i;
+            }
+        }
+        return count; 
+    }	
 }
