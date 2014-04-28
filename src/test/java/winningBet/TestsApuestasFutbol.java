@@ -49,14 +49,14 @@ public class TestsApuestasFutbol {
 	public void crearApuestaInvalidaViaConstructor() {
 		int[] posiciones = {1,2,3};
 		new Apuesta("usuario 1", 4, posiciones);
-		// debe romperse!
+		// Debe romperse!
 		// Nro. de equipos debe coincidir con long. de posiciones.
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void crearApuestaInvalidaViaConstructorNullPos() {
 		new Apuesta("usuario 1", 0, null);
-		// debe romperse!
+		// Debe romperse!
 		// posiciones no puede ser nulo
 	}
 
@@ -102,7 +102,7 @@ public class TestsApuestasFutbol {
 		ColeccionApuestas apuestas = new ColeccionApuestas(3);
 		apuestas.agregar(apuesta);
 		apuestas.cambiarNroEquipos(4);
-		// debe fallar! Colección no vacía, y se quiere cambiar el
+		// Debe fallar! Colección no vacía, y se quiere cambiar el
 		// nro. de equipos.
 	}
 
@@ -128,7 +128,7 @@ public class TestsApuestasFutbol {
 		Apuesta apuesta9 = new Apuesta("usuario 9", 3, posiciones9);
 		int[] posiciones10 = {1,2,3};
 		Apuesta apuesta10 = new Apuesta("usuario 10", 3, posiciones10);		
-
+		
 		ColeccionApuestas apuestas = new ColeccionApuestas(3);
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
@@ -149,7 +149,6 @@ public class TestsApuestasFutbol {
 		Apuesta apuesta1 = new Apuesta("usuario 1", 3, posiciones1);
 		int[] posiciones2 = {3,1,2};
 		Apuesta apuesta2 = new Apuesta("usuario 1", 3, posiciones2);
-
 		ColeccionApuestas apuestas = new ColeccionApuestas(3);
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
@@ -167,7 +166,7 @@ public class TestsApuestasFutbol {
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
 		apuestas.establecerPosicionesFinales(posiciones1);
-		apuestas.calcularGanadores();
+		apuestas.calcularGanadores();	
 		assertEquals(1, apuestas.ganadores().size());
 		assertTrue(apuestas.ganadores().get(0)=="usuario 1");
 	}
@@ -194,7 +193,7 @@ public class TestsApuestasFutbol {
 		Apuesta apuesta9 = new Apuesta("usuario 9", 3, posiciones9);
 		int[] posiciones10 = {1,2,3};
 		Apuesta apuesta10 = new Apuesta("usuario 10", 3, posiciones10);		
-
+		
 		ColeccionApuestas apuestas = new ColeccionApuestas(3);
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
@@ -216,30 +215,23 @@ public class TestsApuestasFutbol {
 
 	@Test
 	public void calculoGanadoresMuchasApuestasLargas() {     
-
 		ColeccionApuestas apuestas = new ColeccionApuestas(20);
 		for (int i=0; i<5000; i++) {
 			int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 			Apuesta apuesta = new Apuesta("usuario "+i, 20, posiciones);
 			apuestas.agregar(apuesta);
 		}
-		
 		assertEquals(5000, apuestas.numApuestas());
-		
 		int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 		apuestas.establecerPosicionesFinales(posiciones);
 		apuestas.calcularGanadores();
-		
-		
 		assertEquals(5000, apuestas.ganadores().size());
-		
 		assertTrue(apuestas.ganadores().contains("usuario 10"));
 		assertTrue(apuestas.ganadores().contains("usuario 7"));
 	}
 
 	@Test
 	public void calculoGanadoresNadieLePega() {
-
 		int[] posiciones1 = {4,3,2,1};
 		Apuesta apuesta1 = new Apuesta("usuario 1", 4, posiciones1);
 		int[] posiciones2 = {3,1,2,4};
@@ -247,13 +239,11 @@ public class TestsApuestasFutbol {
 		ColeccionApuestas apuestas = new ColeccionApuestas(4);
 		apuestas.agregar(apuesta1);
 		apuestas.agregar(apuesta2);
-		
 		int[] posicionesFinales = {1,2,3,4};
 		apuestas.establecerPosicionesFinales(posicionesFinales);
-		apuestas.calcularGanadores();
+		apuestas.calcularGanadores();	
 		assertEquals(1, apuestas.ganadores().size());
 		assertTrue(apuestas.ganadores().get(0)=="usuario 2");
-
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -297,18 +287,15 @@ public class TestsApuestasFutbol {
 		apuestas.establecerPosicionesFinales(posicionesFinales);	
 		int [] posiciones1 = {2,4,6};
 		int [] b = {0,0,2,0,0,0,1};
-		
 		assertEquals(2,apuestas.countInversion(posiciones1,b));
 	}
 	
 	@Test
-
 	public void inversionesComplejo() {
 		ColeccionApuestas apuestas = new ColeccionApuestas(20);
 		int posicionesFinales [] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};		
 		apuestas.establecerPosicionesFinales(posicionesFinales);	
-		int [] b = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-		
+		int [] b = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};	
 		assertEquals(0,apuestas.countInversion(posicionesFinales,b));
 	}
 }
