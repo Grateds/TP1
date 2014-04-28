@@ -277,7 +277,7 @@ public class TestsApuestasFutbol {
 		int[] posicionesFinales = {1,2,3,4};
 		apuestas.establecerPosicionesFinales(posicionesFinales);
 		apuestas.calcularGanadores();
-		assertTrue("no hay ganadores", apuestas.ganadores().isEmpty());
+		assertTrue("No hay ganadores", apuestas.ganadores().isEmpty());
 	}
 
 	@Test
@@ -297,5 +297,15 @@ public class TestsApuestasFutbol {
 		apuestas.establecerPosicionesFinales(posicionesFinales);	
 		int [] b = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};	
 		assertEquals(0,apuestas.countInversion(posicionesFinales,b));
+	}
+	
+	@Test
+	public void inversionesMasComplejo() {
+		ColeccionApuestas apuestas = new ColeccionApuestas(6);
+		int posicionesFinales [] = {1,4,5,3,2,6};
+		apuestas.establecerPosicionesFinales(posicionesFinales);	
+		int [] posiciones1 = {6,5,4,3,2,1};
+		int [] b = {0,0,4,3,1,2,5};
+		assertEquals(13,apuestas.countInversion(posiciones1,b));
 	}
 }
