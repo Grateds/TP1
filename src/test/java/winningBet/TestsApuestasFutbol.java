@@ -2,7 +2,6 @@ package test.java.winningBet;
 
 import static org.junit.Assert.*;
 import main.java.winningBet.*;
-
 import org.junit.Test;
 
 /**
@@ -35,7 +34,6 @@ public class TestsApuestasFutbol {
 		new Apuesta(null, 3, posiciones);
 	}
 
-	
 	@Test
 	public void crearApuestaSimpleViaConstructor() {
 		int[] posiciones = {1,2,3};
@@ -60,7 +58,6 @@ public class TestsApuestasFutbol {
 		// posiciones no puede ser nulo
 	}
 
-	
 	@Test
 	public void sinApuestasIniciales() {
 		ColeccionApuestas apuestas = new ColeccionApuestas();
