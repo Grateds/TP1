@@ -156,9 +156,8 @@ public class ColeccionApuestas {
             int countRight = countInversion(right,order);
 
             /* Counts the split inversions*/
-            int[] result = new int[len];
-            int countSplit = countSplitInversion(left, right, order, result);
-            
+            int countSplit = countSplitInversion(left, right, order);
+    
             return countLeft + countRight + countSplit;
         }
     }
@@ -170,16 +169,12 @@ public class ColeccionApuestas {
      * @param n the length of the array
      * @return the number of split inversions
      */
-    private int countSplitInversion(int[] left, int[] right, int[] order, int[] result) {
-        int i = 0, j = 0, k = 0;
+    private int countSplitInversion(int[] left, int[] right, int[] order) {
+        int i = 0, j = 0;
         int count = 0;
         while (i < left.length && j < right.length) {
-            if (order[left[i]] <= order[right[j]])
-                result[k++] = left[i++];
-            else {
-                result[k++] = right[j++];
-                count += left.length - i;
-            }
+            if (order[left[i]] <= order[right[j]]) i++;
+            else { j++; count += left.length - i; }
         }
         return count; 
     }	

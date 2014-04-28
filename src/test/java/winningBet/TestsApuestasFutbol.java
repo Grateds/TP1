@@ -218,20 +218,20 @@ public class TestsApuestasFutbol {
 	public void calculoGanadoresMuchasApuestasLargas() {     
 
 		ColeccionApuestas apuestas = new ColeccionApuestas(20);
-		for (int i=0; i<5000; i++) {
+		for (int i=0; i<500000; i++) {
 			int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 			Apuesta apuesta = new Apuesta("usuario "+i, 20, posiciones);
 			apuestas.agregar(apuesta);
 		}
 		
-		assertEquals(5000, apuestas.numApuestas());
+		assertEquals(500000, apuestas.numApuestas());
 		
 		int[] posiciones = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 		apuestas.establecerPosicionesFinales(posiciones);
 		apuestas.calcularGanadores();
 		
 		
-		assertEquals(5000, apuestas.ganadores().size());
+		assertEquals(500000, apuestas.ganadores().size());
 		
 		assertTrue(apuestas.ganadores().contains("usuario 10"));
 		assertTrue(apuestas.ganadores().contains("usuario 7"));
@@ -302,7 +302,6 @@ public class TestsApuestasFutbol {
 	}
 	
 	@Test
-
 	public void inversionesComplejo() {
 		ColeccionApuestas apuestas = new ColeccionApuestas(20);
 		int posicionesFinales [] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};		
