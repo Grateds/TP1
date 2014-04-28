@@ -38,11 +38,9 @@ public class ColeccionApuestas {
 		this.banderaGanadores = 0;
 	}
 
-	
 	/**
 	 * Constructor que toma como parámetro el número de equipos de las apuestas.
-	 * @param nroEquipos, es el número de equipos del campeonato.
-	 * 				
+	 * @param nroEquipos, es el número de equipos del campeonato.				
 	 */
 	public ColeccionApuestas(int nroEquipos) {
 		this.apuestas = new ArrayList<Apuesta>();
@@ -64,8 +62,7 @@ public class ColeccionApuestas {
 	 * Permite registrar una nueva apuesta en el sistema. Debe corresponder a un usuario no registrado 
 	 * previamente, es decir, que no tenga una apuesta previa en el sistema (cada usuario puede apostar
 	 * exactamente una vez).
-	 * @param apuesta,	es la apuesta a agregar en el sistema.
-	 * 		 
+	 * @param apuesta,	es la apuesta a agregar en el sistema.	 
 	 */
 	public void agregar(Apuesta apuesta) {
 		if (apuesta.nroEquipos() != this.nroEquipos) throw new IllegalArgumentException("Número de equipos en apuesta no coincide con coleccion apuestas");
@@ -78,7 +75,6 @@ public class ColeccionApuestas {
 	 * Cambia el número de equipos participantes en el campeonato. Sólo puede cambiarse si aún no hay
 	 * apuestas registradas.
 	 * @param i, es el nuevo nímero de equipos en el campeonato.
-	 * 		
 	 */
 	public void cambiarNroEquipos(int i) {
 		if(this.apuestas.size()>0) throw new IllegalStateException("No es posible cambiar el numero de equipos en colección no vacía");
@@ -137,7 +133,7 @@ public class ColeccionApuestas {
 	
 
 	/**
-	 * Cuenta el número de inversiones utilizando divide y vencerás en el tiempo nlogn
+	 * Cuenta el número de inversiones utilizando divide y vencerás en tiempo nlogn
 	 * @param arr
 	 * @param order
 	 * @return countLeft + countRight + countSplit
@@ -162,7 +158,6 @@ public class ColeccionApuestas {
     }
 
     /**
-     * 
      * @param left
      * @param right
      * @param order
