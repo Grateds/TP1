@@ -41,8 +41,8 @@ public class ColeccionApuestas {
 	
 	/**
 	 * Constructor que toma como parámetro el número de equipos de las apuestas.
-	 * @param nroEquipos 
-	 * 				es el número de equipos del campeonato.
+	 * @param nroEquipos, es el número de equipos del campeonato.
+	 * 				
 	 */
 	public ColeccionApuestas(int nroEquipos) {
 		this.apuestas = new ArrayList<Apuesta>();
@@ -64,8 +64,8 @@ public class ColeccionApuestas {
 	 * Permite registrar una nueva apuesta en el sistema. Debe corresponder a un usuario no registrado 
 	 * previamente, es decir, que no tenga una apuesta previa en el sistema (cada usuario puede apostar
 	 * exactamente una vez).
-	 * @param apuesta 
-	 * 			es la apuesta a agregar en el sistema. 
+	 * @param apuesta,	es la apuesta a agregar en el sistema.
+	 * 		 
 	 */
 	public void agregar(Apuesta apuesta) {
 		if (apuesta.nroEquipos() != this.nroEquipos) throw new IllegalArgumentException("Número de equipos en apuesta no coincide con coleccion apuestas");
@@ -77,8 +77,8 @@ public class ColeccionApuestas {
 	/**
 	 * Cambia el número de equipos participantes en el campeonato. Sólo puede cambiarse si aún no hay
 	 * apuestas registradas.
-	 * @param i 
-	 * 		es el nuevo nímero de equipos en el campeonato.
+	 * @param i, es el nuevo nímero de equipos en el campeonato.
+	 * 		
 	 */
 	public void cambiarNroEquipos(int i) {
 		if(this.apuestas.size()>0) throw new IllegalStateException("No es posible cambiar el numero de equipos en colección no vacía");
@@ -137,11 +137,11 @@ public class ColeccionApuestas {
 	
 
 	/**
-     * Counts the number of inversions using divide and conquer in nlogn time
-     * @param arr the original int array
-     * @param n the length of the array
-     * @return the number of inversions in nlogn time
-     */
+	 * Cuenta el número de inversiones utilizando divide y vencerás en el tiempo nlogn
+	 * @param arr
+	 * @param order
+	 * @return countLeft + countRight + countSplit
+	 */
     public int countInversion(int[] arr, int[] order) {
         int len = arr.length;
         if (len < 2)
@@ -151,11 +151,9 @@ public class ColeccionApuestas {
             int[] left = Arrays.copyOfRange(arr, 0, middle);
             int[] right = Arrays.copyOfRange(arr, middle, len);
 
-            /* Counts left and right inversions */
             int countLeft = countInversion(left,order);
             int countRight = countInversion(right,order);
 
-            /* Counts the split inversions*/
             int[] result = new int[len];
             int countSplit = countSplitInversion(left, right, order, result);
             
@@ -164,11 +162,12 @@ public class ColeccionApuestas {
     }
 
     /**
-     * Counts the number of split inversions, i.e. inversions that occur in both halves of the array 
-     * @param left the left side of the original int array
-     * @param right the right side of the original int array
-     * @param n the length of the array
-     * @return the number of split inversions
+     * 
+     * @param left
+     * @param right
+     * @param order
+     * @param result
+     * @return count
      */
     private int countSplitInversion(int[] left, int[] right, int[] order, int[] result) {
         int i = 0, j = 0, k = 0;
