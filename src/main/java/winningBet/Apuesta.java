@@ -14,13 +14,12 @@ public class Apuesta {
 
 	private String usuario;
 	private int nroEquipos;
-	private int[] posiciones;
+	private int[] posiciones;	// representa la tabla de posiciones propuesta 
+								// por el usuario
 		
 	/**
 	 * Constructor que crea una apuesta vacía, dado el nombre del apostador.
-	 * 
-	 * @param usuario
-	 *            es el nombre del apostador.
+	 * @param usuario es el nombre del apostador.      
 	 */
 	public Apuesta(String usuario) {
 		if (usuario == null) throw new IllegalArgumentException("El Usuario no puede ser nulo"); 
@@ -33,13 +32,9 @@ public class Apuesta {
 	 * Constructor que crea una apuesta, dados el nombre del apostador, número
 	 * de equipos y apuesta. La longitud de la apuesta debe coincidir con el
 	 * número de equipos.
-	 * 
-	 * @param usuario
-	 *            es el nombre del apostador.
-	 * @param NroEquipos
-	 *            es el número de equipos en la apuesta.
-	 * @param posiciones
-	 *            es la apuesta.
+	 * @param usuario, es el nombre del apostador.          
+	 * @param NroEquipos, es el número de equipos en la apuesta.         
+	 * @param posiciones, es la apuesta.         
 	 */
 	public Apuesta(String usuario, int NroEquipos, int[] posiciones) {
 
@@ -53,9 +48,7 @@ public class Apuesta {
 
 	/**
 	 * Cambia el número de equipos de la apuesta.
-	 * 
-	 * @param es
-	 *            el nuevo número de equipos de la apuesta
+	 * @param es el nuevo número de equipos de la apuesta        
 	 */
 	public void cambiarNroEquipos(int i) {
 		this.nroEquipos = i;
@@ -63,7 +56,6 @@ public class Apuesta {
 
 	/**
 	 * Número de equipos de la apuesta.
-	 * 
 	 * @return el número de equipos de la apuesta.
 	 */
 	public int nroEquipos() {
@@ -72,9 +64,7 @@ public class Apuesta {
 
 	/**
 	 * Posiciones definidas por el usuario para su apuesta.
-	 * 
-	 * @return el orden de los equipos seleccionado por el usuario en su
-	 *         apuesta.
+	 * @return el orden de los equipos seleccionado por el usuario en su apuesta.    
 	 */
 	public int[] posiciones() {
 		return this.posiciones;
@@ -82,10 +72,7 @@ public class Apuesta {
 
 	/**
 	 * Cambia el orden establecido por el usuario para su apuesta.
-	 * 
-	 * @param posiciones
-	 *            es el nuevo orden establecido por el usuario para los equipos
-	 *            del torneo.
+	 * @param posiciones, es el nuevo orden establecido por el usuario para los equipos del torneo.       
 	 */
 	public void cambiarPosiciones(int[] posiciones) {
 		this.posiciones = posiciones;
@@ -93,7 +80,6 @@ public class Apuesta {
 
 	/**
 	 * Nombre del usuario, i.e, del cliente que emite la apuesta.
-	 * 
 	 * @return el nombre del usuario que emite la apuesta.
 	 */
 	public String usuario() {
